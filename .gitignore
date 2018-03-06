@@ -1,0 +1,4 @@
+FreelancerNodeServer/node_modules/*
+FreelancerNodeServer/.idea/*
+reactapp/.idea/*
+reactapp/node_modules/*

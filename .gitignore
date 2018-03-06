@@ -1,4 +1,7 @@
 FreelancerNodeServer/node_modules/*
 FreelancerNodeServer/.idea/*
-reactapp/.idea/*
-reactapp/node_modules/*
+freelancerreact/.idea/*
+freelancerreact/node_modules/*
+freelancerreact/.gitignore
+freelancerreact/README.md
+

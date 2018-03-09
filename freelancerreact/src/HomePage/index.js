@@ -17,9 +17,6 @@ class HomePage extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         console.log("calling gotolink");
-       // dispatch(userActions.gotolink('dashboard'));
-
-
         history.push('/dashboard');
 
     }

@@ -37,19 +37,19 @@ router.post('/users/authenticate', function(req,res) {
 router.post('/users/register', function(req,res) {
     console.log(req.body);
 
-    var insertQuery = "INSERT INTO `users` (`name`,`email`, `username`, `password`) VALUES ('" + req.body.Name +"','"+req.body.Email + "', '" + req.body.username + "', '" + req.body.password + "')";
+    var insertQuery = "INSERT INTO `users` (`name`,`email`, `username`, `password`,`looking_for`) VALUES ('" + req.body.Name +"','"+req.body.Email + "', '" + req.body.username + "', '" + req.body.password +"', '" + req.body.looking_for + "')";
     mysql.fetchData(function (err, results) {
         if (err) {
             if(err.message.includes("'username_UNIQUE'")) {
-                res.statusMessage = "This username already exists, please choose another!";
+                res.statusMessage = "This username already exists!";
             }else if(err.message.includes("'email_UNIQUE'")) {
                 res.statusMessage = "This email address is already in use!";
             }
-            else
+                console.log("reject");
             res.status(400).end();
         }
         else {
-            res.status(200).send('User created successfully!');
+            res.status(200).send({user:'User created successfully!'});
         }
     }, insertQuery);
 

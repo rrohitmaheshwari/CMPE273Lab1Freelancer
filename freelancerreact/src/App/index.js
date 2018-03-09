@@ -17,10 +17,7 @@ class App extends React.Component {
 
         const { dispatch } = this.props;
         history.listen((location, action) => {
-            // clear alert on location change
             dispatch(alertActions.clear());
-           // dispatch({ type: userConstants.LOGOUT },{});
-
         });
     }
 
@@ -33,9 +30,7 @@ class App extends React.Component {
 
 <div>
 
-                        {alert.message &&
-                        <div className={`alert ${alert.type}`}>{alert.message}</div>
-                        }
+
                         <Router history={history}>
                             <div>
                                 {!user ? <Route exact path="/" component={LoginPage}/> : <Route exact path="/" component={HomePage}/>}

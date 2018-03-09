@@ -3,3 +3,172 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+.help-block {
+  font-size: 12px;
+}
+
+.jumbotron {
+  background-color: #f6f6f6
+}
+
+#shadowpanel {
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-color: #ffffff;
+}
+
+#PostProjectButton {
+  margin-top: 5%;
+  background-color: #ff7b3d;
+  font-size: 17px;
+  border-color: #ff7b3d
+}
+
+.div-fl-logo {
+  text-align: center;
+  border-bottom: 1px solid #d2d2d2;
+  margin-bottom: 20px;
+}
+
+.fl-logo {
+  width: 60%;
+  height: 60%;
+}
+
+.image-li {
+  width: 25%;
+}
+
+.li-fl-logo {
+
+  width: 100%;
+}
+
+#LoginButtonDiv
+{
+ margin-top: 10px;
+  text-align: center;
+  border-bottom: 1px solid #d2d2d2;
+
+  padding-bottom: 20px;
+}
+
+#LoginButton
+{
+
+  width: 100%;
+  height: 45px;
+  background-color: #29b2fe;
+  border-color: #29b2fe;
+}
+
+
+
+#smallLabeldiv
+{
+  text-align: center;
+}
+#smallLabel
+{
+  font-size: 13px;
+  text-align: center;
+}
+#linkHelper
+{    margin-left: -10px;
+  margin-bottom: 5px;}
+
+#smallLabel2
+{
+  font-size: 12px;
+  margin-top: 10px;
+  margin-bottom: -5px;
+
+}
+#centertext{ text-align: center;}
+
+#roleblock{
+  color: #a94442;
+}
+
+.looking-for-step {
+  padding-bottom: 20px;
+  position: relative;
+  margin-bottom: 0 !important;
+  animation-duration: .4s;
+  animation-fill-mode: both;
+  animation-name: fadeIn;
+  height: 53px;
+  margin-top: 30px;
+}
+.button-group {
+  display: block;
+  position: relative;
+  height: 33px;
+}
+
+.signup-objective-label {
+  width: 50%;
+  white-space: nowrap;
+  height: inherit;
+  color: rgb(77, 82, 91);
+  text-shadow: rgba(0, 0, 0, 0) 0px -1px 0px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 14px;
+  margin-bottom: 0px;
+  padding: 8px 18px 8px 18px;
+  position: relative;
+  background-attachment: scroll;
+  background-clip: border-box;
+  background-color: rgba(0, 0, 0, 0);
+  background-image: linear-gradient(rgb(255, 255, 255) 0px, rgb(240, 240, 240) 100%);
+  background-origin: padding-box;
+  background-position: 0% 0%;
+  background-position-x: 0%;
+  background-position-y: 0%;
+  background-repeat: repeat;
+  background-size: auto auto;
+  border-top-color: rgb(190, 192, 194);
+  border-right-color: rgb(190, 192, 194);
+  border-bottom-color: rgb(190, 192, 194);
+  border-left-color: rgb(190, 192, 194);
+}
+
+.signup-objective-label-left {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 0px;
+  font-weight: 700;
+  margin-right: 0px;
+}
+
+.signup-objective-radio-left {
+  font-weight: inherit;
+  margin-left: -7px;
+  margin-right: 7px;
+  margin-top: 2px;
+  vertical-align: top;
+  z-index: 1;
+
+}
+
+.signup-objective-label-right {
+  border-top-right-radius: 3px;
+  border-top-left-radius: 0px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 0px;
+  font-weight: 400;
+  margin-left: -1px;
+}
+
+.signup-objective-radio-right {
+  margin-left: -7px;
+  margin-right: 7px;
+  margin-top: 2px;
+  vertical-align: top;
+  z-index: 1;
+}
+
+#lookingToHire,#lookingForWork
+{margin-top:-0.2px;}

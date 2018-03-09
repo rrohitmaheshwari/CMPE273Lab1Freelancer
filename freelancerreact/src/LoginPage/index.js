@@ -41,6 +41,7 @@ class LoginPage extends React.Component {
     render() {
 
         const { username, password, submitted } = this.state;
+        const { alert }=this.props;
         return (
             <div className="jumbotron">
             <div className="container">
@@ -53,6 +54,10 @@ class LoginPage extends React.Component {
                         <div className="div-fl-logo"> <img className="fl-logo" src={fllogo} alt="Freelancer" /></div>
 
 
+                        {
+                            alert.message &&
+                            <aside className={`alert ${alert.type}`}>{alert.message}</aside>
+                        }
 
                 <form name="form" onSubmit={this.handleSubmit}>
                     <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
@@ -69,11 +74,16 @@ class LoginPage extends React.Component {
                         <div className="help-block">Password is required</div>
                         }
                     </div>
-                    <div className="form-group">
-                        <button className="btn btn-primary">Login</button>
-                        <Link to="/register" className="btn btn-link">Register</Link>
+
+                    <div className="form-group" id="LoginButtonDiv">
+                        <button className="btn btn-primary" id="LoginButton">Login</button>
+
+                    </div >
+                    <div id="smallLabeldiv">
+                    <p id="smallLabel">Don't have an account?<Link to="/register" className="btn btn-link" id="linkHelper">Register</Link></p>
                     </div>
                 </form>
+
                     </div> </div> </div></div></div></div>
         );
     }
@@ -81,8 +91,9 @@ class LoginPage extends React.Component {
 
 function mapStateToProps(state) {
     const { loggingIn } = state.authentication;
+    const { alert } = state;
     return {
-        loggingIn
+        loggingIn,alert
     };
 }
 

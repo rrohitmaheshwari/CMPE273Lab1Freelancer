@@ -14,14 +14,31 @@ class RegisterPage extends React.Component {
                 Email: '',
                 username: '',
                 password: '',
+                looking_for: '',
                 cpassword: ''
             },
             submitted: false,
-            passcheck: false
+            passcheck: false,
+            usertype: false
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleradio = this.handleradio.bind(this);
+    }
+
+    handleradio(event){
+
+        const {user} = this.state;
+        this.setState({
+            user: {
+                ...user,
+                looking_for: event.target.value
+            },
+            usertype: true
+        });
+
+
     }
 
     handleChange(event) {
@@ -45,11 +62,17 @@ class RegisterPage extends React.Component {
             this.setState({passcheck: false,submitted: true});
 
             const {dispatch} = this.props;
-            if (user.Name && user.Email && user.username && user.password) {
+            if(this.state.usertype === false){
+        //do nothing
+
+            }
+
+            else if (user.Name && user.Email && user.username && user.password) {
                 dispatch(userActions.register(user));       ///try w_ dispatch
             }
         }
         else {
+
             this.setState({submitted: true,passcheck: true});
 
         }
@@ -57,7 +80,8 @@ class RegisterPage extends React.Component {
 
     render() {
 
-        const {user, submitted, passcheck} = this.state;
+        const {user, submitted, passcheck,usertype} = this.state;
+        const{alert}=this.props;
         return (
             <div className="jumbotron">
                 <div className="container">
@@ -69,13 +93,20 @@ class RegisterPage extends React.Component {
                     <div className="panel-body">
                         <div className="div-fl-logo"> <img className="fl-logo" src={fllogo} alt="Freelancer" ></img></div>
 
+                        <div  id="centertext"><label>Sign up for <em>free</em> today!</label></div>
+
+                        {
+                            alert.message &&
+                            <aside className={`alert ${alert.type}`}>{alert.message}</aside>
+                        }
+
                         <form name="form" onSubmit={this.handleSubmit}>
                             <div className={'form-group' + (submitted && !user.Name ? ' has-error' : '')}>
                                 <label htmlFor="firstName">Name</label>
                                 <input type="text" className="form-control" name="Name" value={user.Name}
                                        onChange={this.handleChange}/>
                                 {submitted && !user.Name &&
-                                <div className="help-block">Name is r.equired</div>
+                                <div className="help-block">Name is required</div>
                                 }
                             </div>
                             <div className={'form-group' + (submitted && !user.Email ? ' has-error' : '')}>
@@ -116,11 +147,37 @@ class RegisterPage extends React.Component {
                                 }
                             </div>
 
-                            <div className="form-group">
-                                <button className="btn btn-primary">Register</button>
+                            <div className="form-group looking-for-step">
+                                <div className="button-group">
+                                    <label className="btn signup-objective-label signup-objective-label-left">
+                                        <input className="signup-objective-radio-left" id="lookingToHire"
+                                               name="looking_for" value="Employer" type="radio" onClick={this.handleradio}/>  Hire
+                                    </label>
+                                    <label className="btn signup-objective-label signup-objective-label-right">
+                                        <input className="signup-objective-radio-right" id="lookingForWork"
+                                               name="looking_for" value="Worker" type="radio" onClick={this.handleradio}/>  Work
+                                    </label>
+                                    {
+                                        submitted && !usertype &&
+                                        <div className="help-block" id="roleblock">Please select one Role</div>
+                                    }
+                                </div>
 
-                                <Link to="/login" className="btn btn-link">Cancel</Link>
                             </div>
+
+                            <div className="form-group" id="LoginButtonDiv">
+                                <button className="btn btn-primary" id="LoginButton">Register</button>
+
+                                <p id="smallLabel2">By registering you confirm that you accept the Terms and Conditions and Privacy Policy</p>
+
+                            </div >
+                            <div id="smallLabeldiv">
+                                <p id="smallLabel">Already a Freelancer.com member?<Link to="/login" className="btn btn-link" id="linkHelper">Log In</Link></p>
+                            </div>
+
+
+
+
                         </form>
                     </div>
                 </div>
@@ -131,8 +188,9 @@ class RegisterPage extends React.Component {
 
 function mapStateToProps(state) {
     const {registering} = state.registration;
+    const {alert}=state;
     return {
-        registering
+        registering,alert
     };
 }
 

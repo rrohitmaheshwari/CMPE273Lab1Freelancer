@@ -66,9 +66,7 @@ function register(user) {
 
 function handleResponse(response) {
     if (!response.ok) {
-        return Promise.reject(response.statusText);
+        return Promise.reject(response.statusText);   //not working?
     }
-    console.log("response");
-   console.log(response);
     return response.json();
 }

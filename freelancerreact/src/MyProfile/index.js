@@ -1,27 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-class DashboardPage extends React.Component {
-
-   /* constructor(props) {
+class MyProfile extends React.Component {
+    /*constructor(props) {
         super(props);
 
 
-    };
-*/
+};*/
+
 
     render() {
+        const {user}=this.props;
 
-      //  const {user}=this.props;
         return (
             <div>
-
-
-            <p> Hi I am inside dashboard</p>
+                <p>hi - {user.username} my Profile Page!</p>
             </div>
         );
     }
 }
+
+
 
 
 function mapStateToProps(state) {
@@ -31,5 +30,5 @@ function mapStateToProps(state) {
     };
 }
 
-const connectedDashboardPage = connect(mapStateToProps)(DashboardPage);
-export { connectedDashboardPage as DashboardPage };
+const connectedMyProfile = connect(mapStateToProps)(MyProfile);
+export { connectedMyProfile as MyProfile };

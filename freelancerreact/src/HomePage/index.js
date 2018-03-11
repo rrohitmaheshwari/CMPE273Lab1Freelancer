@@ -1,82 +1,104 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { userActions } from '../Actions';
-import {history} from "../Helpers";
-import fllogo from '../Images/Logo.png';
+import {connect} from 'react-redux';
+import Banner from '../Images/Banner.png';
+import Icon from '../Images/Freelancer Icon Short.png';
+
+
 class HomePage extends React.Component {
     constructor(props) {
         super(props);
+        //   var Results = dispatch(userActions.fetchHomeProject(user));
+    };
 
-
-
-
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
-};
-    handleSubmit(e) {
-        e.preventDefault();
-        console.log("calling gotolink");
-        history.push('/dashboard');
-
-    }
-
-    handleLogout(e) {
-        e.preventDefault();
-
-
-        console.log("Logging out...");
-        const {dispatch}=this.props;
-        dispatch(userActions.logout());
-        history.push('/login');
-
-    }
 
     render() {
-        const {user}=this.props;
-
+        const {user} = this.props;
+        console.log("User Details from Store-->");
+        console.log(user);
         return (
             <div>
-                <nav className="navbar navbar-inverse">
+                <div className="jumbotron">
 
-                        <div className="navbar-header">
-                            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                            </button>
+                    <div>
+                        <div className="col-sm-7 col-sm-offset-1">
+                            <div className="col-md-12 col-md-offset-0">
+                                <div className="panel panel-primary" id="shadowpanel">
+                                    <img className="Banner" src={Banner}/>
+                                </div>
+
+                                <div>
+
+                                            <div className="panel panel-primary" id="shadowpanel">
+                                                <div className="ProjectFeedTitle">
+
+                                                    <h4><b>Project feed</b></h4>
+
+                                                </div>
+
+                                                <div className="ProjectFeed">
+
+                                                    <div className="col-sm-1 col-sm-offset-0">
+
+                                                        <img className="FreeLancerIcon" src={Icon}/>
+
+                                                    </div>
+                                                    <div className="col-sm-11 col-sm-offset-0">
+
+                                                        ProjectName,
+                                                        Description,
+                                                        SkillsRequired,
+                                                        Employer,
+                                                        Budget Range,
+                                                        Number of Bid yet,
+                                                        Bid Now
+
+                                                    </div>
+
+                                                </div>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div className="collapse navbar-collapse" id="myNavbar">
-                            <ul className="nav navbar-nav">
-                                <li className="image-li">  <img className="li-fl-logo " src={fllogo} alt="Freelancer" ></img></li>
-                                <li className="active"><a>Home</a></li>
-                                <li><a onClick={this.handleSubmit}>Dashboard</a></li>
-                                <li><a>My Profile</a></li>
-                            </ul>
-                            <ul className="nav navbar-nav navbar-right">
-                                <li><button className="btn btn-primary" id="PostProjectButton">Post a Project</button></li>
 
-                                <li><a onClick={this.handleLogout}><span className="glyphicon glyphicon-log-in"></span>Logout</a></li>
-                            </ul>
+                        <div className="col-sm-3 col-sm-offset-0">
+                            <div className="col-md-12 col-md-offset-0">
+                                <div className="panel panel-primary" id="shadowpanelUser">
 
+                                    <div className="col-sm-5 col-sm-offset-0">
+                                        <div className="col-md-12 col-md-offset-0">
+                                            <img className="FreeLancerIcon" src={Icon}/>
+                                        </div>
+                                    </div>
+
+
+                                    <div className="col-sm-7 col-sm-offset-0">
+                                        <div className="col-md-11 col-md-offset-0">
+                                            <h4><b>Welcome back,</b></h4>
+                                            <h3><b>{user.username}</b></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </nav>
 
-                <p>hi - {user.username} home page!</p>
+
+                </div>
             </div>
-        );
+
+        )
     }
 }
 
 
-
-
 function mapStateToProps(state) {
-    const { user } = state.authentication;
+    const {user} = state.authentication;
+
     return {
         user
     };
 }
 
 const connectedHomePage = connect(mapStateToProps)(HomePage);
-export { connectedHomePage as HomePage };
+export {connectedHomePage as HomePage};

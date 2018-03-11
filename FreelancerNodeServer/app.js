@@ -8,7 +8,20 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var cors = require('cors');
 
+var session=require('client-sessions');
+
 var app = express();
+
+
+// all environments
+//configure the sessions with our application
+app.use(session({
+    cookieName: 'session',
+    secret: 'cmpe273_test_string',
+    duration: 1 * 30 * 1000,    //setting the time for active session 30 secs
+    activeDuration: 1 * 30 * 1000,  })); // setting time for the session to be active when the window is open // 1/2 minutes set currently
+
+
 app.use(cors());
 
 // view engine setup

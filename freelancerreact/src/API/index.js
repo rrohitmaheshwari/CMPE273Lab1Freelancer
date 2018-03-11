@@ -5,8 +5,8 @@ const api = process.env.REACT_APP_CONTACTS_API_URL || 'http://localhost:3001'
 export const RESTService = {
 
     login,
-
-    register
+    register,
+    fetchHomeProject,
 };
 
 function login(username, password) {
@@ -31,7 +31,7 @@ function login(username, password) {
             }
         )               //add response not ok line here
         .then(user => {
-            // login successful if there's a jwt token in the response
+            // login successful if there's a token in the response? implementation pending
             console.log("Then Users:");
 
             console.log(user);
@@ -64,9 +64,21 @@ function register(user) {
 
 
 
+function fetchHomeProject(user) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json','Accept':'application/json' },
+        body: JSON.stringify(user)
+    };
+
+    return fetch(`${api}/home/getdetails`, requestOptions).then(handleResponse);
+}
+
+
+
 function handleResponse(response) {
     if (!response.ok) {
-        return Promise.reject(response.statusText);   //not working?
+        return Promise.reject(response.statusText);
     }
     return response.json();
 }

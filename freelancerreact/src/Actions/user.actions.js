@@ -9,7 +9,8 @@ export const userActions = {
     logout,
     register,
     getAll,
-    delete: _delete
+    delete: _delete,
+    fetchHomeProject,
 };
 
 
@@ -24,6 +25,7 @@ function login(username, password) {
                     console.log("user");
                     console.log(user);
                     dispatch(success(user));
+                    dispatch({type: "HOME"});
                     history.push('/');  //home page after login
                 },
                 error => {
@@ -42,6 +44,7 @@ function login(username, password) {
 }
 
 function logout() {
+
 
     localStorage.removeItem('user');
     return { type: "USERS_LOGOUT" };
@@ -70,6 +73,29 @@ function register(user) {
    // function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
 }
+
+
+function fetchHomeProject(user) {
+
+
+    return dispatch => { RESTService.fetchHomeProject(user)
+        .then(
+            result => {
+                console.log("user result");
+                console.log(result);
+                console.log("user result.result");
+                console.log(result.result);
+                return result;
+            },
+            error => {
+                console.log(error);
+                return error;
+            }
+        );};
+
+
+}
+
 
 function getAll() {
     return dispatch => {

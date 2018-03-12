@@ -23,7 +23,7 @@ class App extends React.Component {
         super(props);
         const { dispatch } = this.props;
         history.listen((location, action) => {
-            // clear alert on location change
+
             dispatch(alertActions.clear());
         });
         this.handleLogout = this.handleLogout.bind(this);
@@ -52,12 +52,17 @@ class App extends React.Component {
         const { user, navbar} = this.props;
         var homepage = false, dashboardpage = false, profilepage = false;
         if (user) {
-            if (navbar.page === "home")
+            if (navbar.page === "home") {
                 homepage = true;
+                const { dispatch } = this.props;
+                dispatch(userActions.fetchHomeProject(this.props.user));
+            }
             else if (navbar.page === "dashboard")
-                dashboardpage = true;
+            { dashboardpage = true;
+            }
             else if (navbar.page === "profile")
-                profilepage = true;
+            {  profilepage = true;
+            }
 
         }
 

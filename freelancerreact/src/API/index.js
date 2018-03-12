@@ -12,14 +12,21 @@ export const RESTService = {
 function login(username, password) {
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' ,
-        'Accept':'application/json'},
-        body: JSON.stringify({ username, password })
+        headers: { 'Accept': 'application/json',
+            'Content-Type': 'application/json',
+
+            },
+
+        body: JSON.stringify({ username, password }),
+
+
     };
 
     return fetch(`${api}/users/authenticate`, requestOptions)
         .then(response => {
+
             console.log("response.statusText");
+            console.log(response); // undefined
           //  console.log(response.statusText);
 
             if (!response.ok) {
@@ -42,6 +49,7 @@ function login(username, password) {
             if (user && user.user.username) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user.user));
+               //sessionStorage.setItem('username',user.user.username)
                 console.log("Local Storage Set");
             }
 

@@ -85,6 +85,7 @@ function fetchHomeProject(user) {
                 console.log(result);
                 console.log("user result.result");
                 console.log(result.result);
+                dispatch({type:'SET_DATA',result});
                 return result;
             },
             error => {

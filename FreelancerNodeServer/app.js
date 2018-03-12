@@ -1,6 +1,5 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -18,8 +17,9 @@ var app = express();
 app.use(session({
     cookieName: 'session',
     secret: 'cmpe273_test_string',
-    duration: 1 * 30 * 1000,    //setting the time for active session 30 secs
-    activeDuration: 1 * 30 * 1000,  })); // setting time for the session to be active when the window is open // 1/2 minutes set currently
+    duration: 30 * 60 * 1000,    //setting the time for active session 10 min
+    activeDuration: 5 * 60 * 1000
+})); // setting time for the session to be active when the window is open // 1/ minute set currently
 
 
 app.use(cors());
@@ -33,6 +33,8 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 

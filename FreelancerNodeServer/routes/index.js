@@ -11,19 +11,20 @@ router.get('/', function (req, res, next) {
 router.post('/users/authenticate', function (req, res) {
     var getUser = "select user_id,username,email,name,profile_image,phone,about_me,skills,looking_for from users where username='" + req.body.username + "' and password='" + req.body.password + "'";
     console.log("Query is:" + getUser);
-
+    var username=req.body.username;
+    console.log("Username:"+username);
     mysql.fetchData(function (err, results) {
         if (err) {
             throw err;
         }
         else {
             if (results.length > 0) {
-
+                req.session.username=username;
                 console.log("Session initialized");
                 console.log("Login Successful!");
                 console.log("results[0]:" + results[0]);
 
-                req.session.username = results[0][1];
+
                 res.status(200).send({user: results[0]});
             }
             else {
@@ -66,7 +67,8 @@ router.post('/users/register', function (req, res) {
 router.post('/home/getdetails', function (req, res) {
     var getUser = "select * from projects";
     console.log("Query is:" + getUser);
-
+    console.log("req.session:" + req.session);
+    console.log("req.session.username:" + req.session.username);
    if (req.session) {
         mysql.fetchData(function (err, results) {
             if (err) {
@@ -75,12 +77,12 @@ router.post('/home/getdetails', function (req, res) {
             else {
                 if (results.length > 0) {
 
-                    var jsonString = JSON.stringify(results);
+
                     console.log("Fetch Successful!");
-                    console.log("jsonString-:" + jsonString);
+                    console.log("results-:" + results);
 
 
-                    res.status(201).send({result: jsonString});
+                    res.status(201).send({result: results});
                 }
                 else {
                     console.log("No data fetched!");

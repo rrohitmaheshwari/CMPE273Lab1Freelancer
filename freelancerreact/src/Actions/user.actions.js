@@ -2,6 +2,7 @@ import { userConstants } from '../Constants';
 import { RESTService } from '../API';
 import { alertActions } from './';
 import { history } from '../Helpers';
+import {HomePage} from "../HomePage";
 
 export const userActions = {
 
@@ -26,7 +27,7 @@ function login(username, password) {
                     console.log(user);
                     dispatch(success(user));
                     dispatch({type: "HOME"});
-                    history.push('/');  //home page after login
+                    history.push('/HomePage');  //home page after login
                 },
                 error => {
                     console.log(error);

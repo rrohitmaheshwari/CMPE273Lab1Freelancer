@@ -8,6 +8,12 @@ class PostProject extends React.Component {
 
 };*/
 
+    componentWillMount(){
+        const {dispatch} = this.props;
+        dispatch({type: "POST_A_PROJECT"});
+
+    }
+
 
     render() {
         const {user}=this.props;

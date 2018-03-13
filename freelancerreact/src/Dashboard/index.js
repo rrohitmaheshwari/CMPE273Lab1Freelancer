@@ -9,6 +9,11 @@ class DashboardPage extends React.Component {
 
     };
 */
+    componentWillMount(){
+        const {dispatch} = this.props;
+        dispatch({type: "DASHBOARD"});
+
+    }
 
     render() {
 

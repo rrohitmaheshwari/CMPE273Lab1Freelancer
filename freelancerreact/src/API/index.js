@@ -12,13 +12,13 @@ export const RESTService = {
 function login(username, password) {
     const requestOptions = {
         method: 'POST',
-        headers: { 'Accept': 'application/json',
+        headers: {
+            'Accept':  'application/json',
             'Content-Type': 'application/json',
 
             },
-
+        credentials:'include',
         body: JSON.stringify({ username, password }),
-
 
     };
 
@@ -26,7 +26,7 @@ function login(username, password) {
         .then(response => {
 
             console.log("response.statusText");
-            console.log(response); // undefined
+          //  console.log(response); // undefined
           //  console.log(response.statusText);
 
             if (!response.ok) {
@@ -76,6 +76,7 @@ function fetchHomeProject(user) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json','Accept':'application/json' },
+        credentials:'include',
         body: JSON.stringify(user)
     };
 

@@ -8,7 +8,11 @@ class MyProfile extends React.Component {
 
 };*/
 
+    componentWillMount(){
+        const {dispatch} = this.props;
+        dispatch({type: "MY_PROFILE"});
 
+    }
     render() {
         const {user}=this.props;
 

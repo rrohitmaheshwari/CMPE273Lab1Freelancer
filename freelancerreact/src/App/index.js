@@ -13,6 +13,9 @@ import {HomePage} from '../HomePage';
 import {DashboardPage} from "../Dashboard";
 import {MyProfile} from "../MyProfile";
 import {PostProject} from "../PostProject";
+import {BidProject} from "../BidProject";
+
+
 
 
 
@@ -91,12 +94,12 @@ class App extends React.Component {
                         <div className="collapse navbar-collapse" id="myNavbar">
                             <ul className="nav navbar-nav">
                                 <li className="image-li"><img className="li-fl-logo " src={fllogo}
-                                                              alt="Freelancer"></img></li>
+                                                              alt="Freelancer"/></li>
                                 {!homepage &&
-                                <li onClick={this.handleSubmit.bind(this, "/", "HOME")}><a>Home</a></li>
+                                <li onClick={this.handleSubmit.bind(this, "/HomePage", "HOME")}><a>Home</a></li>
                                 }
                                 {homepage &&
-                                <li onClick={this.handleSubmit.bind(this, "/", "HOME")} className="active"><a>Home</a>
+                                <li onClick={this.handleSubmit.bind(this, "/HomePage", "HOME")} className="active"><a>Home</a>
                                 </li>
                                 }
 
@@ -146,6 +149,8 @@ class App extends React.Component {
                     <div>
                         {!user ? <Route exact path="/" component={LoginPage}/> :
                             <Route exact path="/" component={HomePage}/>}
+                        {!user ? <Route exact path="/HomePage" component={LoginPage}/> :
+                            <Route exact path="/HomePage" component={HomePage}/>}
                         {!user ? <Route exact path="/login" component={LoginPage}/> :
                             <Route exact path="/login" component={HomePage}/>}
                         {!user ? <Route exact path="/register" component={RegisterPage}/> :
@@ -156,6 +161,8 @@ class App extends React.Component {
                             <Route exact path="/MyProfile" component={MyProfile}/>}
                         {!user ? <Route exact path="/PostProject" component={LoginPage}/> :
                             <Route exact path="/PostProject" component={PostProject}/>}
+                        {!user ? <Route exact path="/BidProject" component={LoginPage}/> :
+                            <Route exact path="/BidProject" component={BidProject}/>}
 
                     </div>
                 </Router>

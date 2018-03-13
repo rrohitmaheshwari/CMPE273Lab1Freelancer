@@ -9,6 +9,9 @@ router.get('/', function (req, res, next) {
 
 /* POST user authentication. */
 router.post('/users/authenticate', function (req, res) {
+    console.log(req);
+
+
     var getUser = "select user_id,username,email,name,profile_image,phone,about_me,skills,looking_for from users where username='" + req.body.username + "' and password='" + req.body.password + "'";
     console.log("Query is:" + getUser);
     var username=req.body.username;
@@ -39,7 +42,7 @@ router.post('/users/authenticate', function (req, res) {
 
 /* POST user registration. */
 router.post('/users/register', function (req, res) {
-    console.log(req.body);
+   // console.log(req.body);
 
         var insertQuery = "INSERT INTO `users` (`name`,`email`, `username`, `password`,`looking_for`) VALUES ('" + req.body.Name + "','" + req.body.Email + "', '" + req.body.username + "', '" + req.body.password + "', '" + req.body.looking_for + "')";
         mysql.fetchData(function (err, results) {
@@ -65,10 +68,15 @@ router.post('/users/register', function (req, res) {
 
 
 router.post('/home/getdetails', function (req, res) {
-    var getUser = "select * from projects";
+   // var getUser = "select *,DATE_FORMAT(complete_by,'%d/%m/%Y') AS niceDate from projects";
+    var getUser = "SELECT *,count(user_projects_project_id) as bid_count from  (SELECT projects.project_id ,projects.emp_username,projects.title,projects.description,projects.budget_range,projects.skills_req, projects.status,DATE_FORMAT(projects.complete_by,'%d/%m/%Y') as niceDate,projects.file,user_projects.project_id as user_projects_project_id from  freelancerdb.projects left join freelancerdb.user_projects ON projects.project_id = user_projects.project_id Where status=\"OPEN\" ) as complete_table group by project_id";
     console.log("Query is:" + getUser);
+
     console.log("req.session:" + req.session);
-    console.log("req.session.username:" + req.session.username);
+    //console.log("req   11 1111");
+    //console.log(req);
+
+    console.log("req.sessionusername:" + req.session.username);
    if (req.session) {
         mysql.fetchData(function (err, results) {
             if (err) {
@@ -79,7 +87,7 @@ router.post('/home/getdetails', function (req, res) {
 
 
                     console.log("Fetch Successful!");
-                    console.log("results-:" + results);
+                  //  console.log("results-:" + results);
 
 
                     res.status(201).send({result: results});

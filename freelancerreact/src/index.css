@@ -176,39 +176,216 @@ body {
 }
 
 .Banner {
-    width: 100.3%;
+    width: 100.5%;
+    margin: -1px;
 }
 
 .ProjectFeedTitle {
     border-bottom: 1px solid #DEDEDE;
-    padding-left: 2%;
-    padding-bottom: 1%;
-    margin-left: 2%;
-    margin-right: 2%;
-    margin-bottom: 1%
-
+    height: 45px;
+    background-color: rgba(0, 0, 0, 0.72);
+    margin: 0%;
+    opacity: 0.9;
+    color: #F7F7F7;
 
 }
+
 .ProjectFeed {
     border-bottom: 1px solid #DEDEDE;
     padding-left: 2%;
     padding-bottom: 1%;
-    margin-left: 2%;
+    margin-left: 0%;
     margin-right: 2%;
     margin-bottom: 1%;
-    height: 100px;
+    height: 200px;
 
-
+    font-size: 17px;
 }
 
-.FreeLancerIcon{
-    width:150%;
+.FreeLancerIcon {
+    width: 100%;
 }
 
 #shadowpanelUser {
     background-color: #ffffff;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-color: #ffffff;
-    height:350px;
+    height: 350px;
     padding-top: 4%;
 }
+
+.shiftsmallleft {
+    margin-left: 15%;
+}
+
+.ProjectTitle {
+    font-size: 22px;
+    color: #0075c2;
+}
+
+.ProjectDescription {
+
+    font-size: 17px;
+}
+
+.ProjectSkillsReq {
+
+    font-size: 17px;
+}
+
+#BidProjectButton {
+    margin-top: 5%;
+    background-color: #4fb55d;
+    font-size: 17px;
+    border-color: #4fb55d
+}
+
+.ProjectTitleBid {
+    box-sizing: content-box;
+    color: rgb(51, 51, 51);
+    display: block;
+    float: left;
+    font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    height: 31px;
+    line-height: 31.92px;
+    margin-bottom: 5px;
+    margin-left: 1px;
+    margin-right: 4px;
+    margin-top: 0px;
+    text-rendering: optimizeLegibility;
+    text-size-adjust: 100%;
+    width: 920px;
+    word-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+    -webkit-margin-after: 5px;
+    -webkit-margin-before: 0px;
+    -webkit-margin-end: 4px;
+    -webkit-margin-start: 1px;
+}
+
+.ProjectDetailHeader {
+    height: 70px;
+    padding: 5px;
+}
+
+#ProjectDetailBox {
+    border-right: 1px solid #DEDEDE;
+    padding: 1%;
+}
+
+#ProjectDetailBoxEnd {
+
+    padding: 1%;
+    text-align: right;
+}
+
+.ProjectHeaderValue {
+    color: rgb(0, 139, 203);
+
+    font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    text-size-adjust: 100%;
+    width: 27.2344px;
+    -webkit-font-smoothing: antialiased;
+
+}
+
+.ProjectDetails {
+    height: 400px;
+    padding: 3%;
+
+}
+
+#BidProjectButtonBig {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: linear-gradient(rgb(19, 159, 240) 0px, rgb(0, 135, 224) 100%);
+    background-origin: padding-box;
+    background-position-x: 0%;
+    background-position-y: 0%;
+
+    background-size: auto;
+    border-bottom-color: rgb(0, 135, 224);
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-image-outset: 0px;
+    border-image-repeat: stretch;
+    border-image-slice: 100%;
+    border-image-source: none;
+    border-image-width: 1;
+    border-left-color: rgb(0, 135, 224);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-right-color: rgb(0, 135, 224);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-top-color: rgb(0, 135, 224);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-top-style: solid;
+    border-top-width: 1px;
+    box-sizing: content-box;
+    color: rgb(247, 247, 247);
+    cursor: pointer;
+    display: inline-block;
+    font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    height: 28px;
+    line-height: 28px;
+    padding-bottom: 13px;
+    padding-left: 22px;
+    padding-right: 22px;
+    padding-top: 13px;
+    text-align: center;
+    text-decoration-color: rgb(247, 247, 247);
+    text-decoration-line: none;
+    text-decoration-style: solid;
+    text-shadow: rgba(0, 0, 0, 0) 0px -1px 0px;
+    text-size-adjust: 100%;
+    transition-delay: 0s;
+    transition-duration: 0.1s;
+    transition-property: color;
+    transition-timing-function: ease-out;
+    width: 170.281px;
+    -webkit-font-smoothing: antialiased;
+}
+
+.ProjectTitleSubheading {
+    box-sizing: content-box;
+    color: rgb(51, 51, 51);
+    display: block;
+    float: left;
+    font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    height: 31px;
+    line-height: 31.92px;
+    margin-bottom: 5px;
+    margin-left: 1px;
+    margin-right: 4px;
+    margin-top: 0px;
+    text-rendering: optimizeLegibility;
+    text-size-adjust: 100%;
+    width: 920px;
+    word-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+    -webkit-margin-after: 5px;
+    -webkit-margin-before: 0px;
+    -webkit-margin-end: 4px;
+    -webkit-margin-start: 1px;
+}
+
+#textrightshift100 {
+    margin-left: 100px;
+}
+

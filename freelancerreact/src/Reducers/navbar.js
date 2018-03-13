@@ -1,6 +1,6 @@
 
 
-export function navbar(state = { page: 'home'}, action) {
+export function navbar(state = {page: 'home'}, action) {
     switch (action.type) {
         case "HOME":
             return { page: 'home' };

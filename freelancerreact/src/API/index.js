@@ -7,6 +7,7 @@ export const RESTService = {
     login,
     register,
     fetchHomeProject,
+    logout
 };
 
 function login(username, password) {
@@ -26,19 +27,17 @@ function login(username, password) {
         .then(response => {
 
             console.log("response.statusText");
-          //  console.log(response); // undefined
-          //  console.log(response.statusText);
 
             if (!response.ok) {
                 return Promise.reject(response.statusText);
             }
             console.log("*****response json");
-           // console.log(response.json());
+
                return response.json();
             }
         )               //add response not ok line here
         .then(user => {
-            // login successful if there's a token in the response? implementation pending
+
             console.log("Then Users:");
 
             console.log(user);
@@ -47,18 +46,15 @@ function login(username, password) {
 
             console.log(user.user.username);
             if (user && user.user.username) {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
+
                 localStorage.setItem('user', JSON.stringify(user.user));
-               //sessionStorage.setItem('username',user.user.username)
+
                 console.log("Local Storage Set");
             }
 
             return user.user;
         });
 }
-
-
-
 
 function register(user) {
     const requestOptions = {
@@ -82,6 +78,21 @@ function fetchHomeProject(user) {
 
     return fetch(`${api}/home/getdetails`, requestOptions).then(handleResponse);
 }
+
+function logout() {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json','Accept':'application/json' },
+        credentials:'include'
+    };
+
+    return fetch(`${api}/user/logout`, requestOptions).then(handleResponse)
+        .then(response => {
+            localStorage.removeItem('user');
+            console.log(response)
+        });
+}
+
 
 
 

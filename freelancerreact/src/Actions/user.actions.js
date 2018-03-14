@@ -47,7 +47,8 @@ function login(username, password) {
 function logout() {
 
 
-    localStorage.removeItem('user');
+
+    RESTService.logout();
     return { type: "USERS_LOGOUT" };
 }
 
@@ -66,6 +67,7 @@ function register(user) {
                     console.log(error);
                     dispatch(failure(error));
                     dispatch(alertActions.error(error));
+
                 }
             );
     };
@@ -90,7 +92,14 @@ function fetchHomeProject(user) {
                 return result;
             },
             error => {
+                console.log("Error/fetchHomeProject:");
                 console.log(error);
+
+                localStorage.removeItem('user');
+                dispatch( { type: "USERS_LOGOUT" });
+                dispatch( { type: "UNSET" });
+                RESTService.logout();
+               history.push('/Login');  //home page after session expire
                 return error;
             }
         );};

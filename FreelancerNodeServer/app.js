@@ -7,24 +7,18 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var cors = require('cors');
 
-//var session = require('client-sessions');
-var session = require('express-session');
-var mongoStore = require("connect-mongo/es5")(session);
-var mongoSessionURL = "mongodb://localhost:27017/sessions";
+var session = require('client-sessions');
+//var session = require('express-session');
+//var mongoStore = require("connect-mongo/es5")(session);
+//var mongoSessionURL = "mongodb://localhost:27017/sessions";
 
 var app = express();
 
 
-// all environments
-//configure the sessions with our application
-
-
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
 app.use(logger('dev'));
 
 
@@ -32,7 +26,6 @@ app.use(cors(
     {
         origin: 'http://localhost:3000',
         credentials: true,
-
     }
 ));
 
@@ -52,9 +45,8 @@ app.use(session({
     secret: 'cmpe273_test_string',
     duration: 30 * 60 * 1000,    //setting the time for active session 10 min
     activeDuration: 5 * 60 * 1000,
-    store: new mongoStore({url: mongoSessionURL})
+   // store: new mongoStore({url: mongoSessionURL})
 })); // setting time for the session to be active when the window is open // 1/ minute set currently
-
 
 
 app.use('/', index);

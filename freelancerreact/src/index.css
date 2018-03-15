@@ -2,6 +2,11 @@ body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
+    background-color: #f6f6f6
+}
+
+a {
+    cursor: pointer;
 }
 
 .help-block {
@@ -460,7 +465,7 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-.BidProposal-form-input{
+.BidProposal-form-input {
     background-color: rgb(255, 255, 255);
     border-bottom-color: rgb(204, 204, 204);
     border-bottom-left-radius: 0px;
@@ -522,7 +527,6 @@ body {
     text-transform: none;
     transition-delay: 0s, 0s;
     transition-duration: 0.2s, 0.2s;
-    transition-property: border, box-shadow;
     transition-timing-function: linear, linear;
     vertical-align: middle;
     width: 95px;
@@ -534,10 +538,54 @@ body {
     -webkit-border-image: none;
 }
 
-
 #BidProjectButtonProjectDetails {
     background-color: #4fb55d;
     font-size: 17px;
     border-color: #4fb55d;
-    margin-right: 5px;
+    margin-right: 10px;
+}
+
+#borderlighttop {
+    border-top: 1px solid #DEDEDE;
+    padding: 1%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: rgba(0, 0, 0, 0.72);
+    border-bottom-color: rgb(222, 222, 222);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    box-sizing: border-box;
+    color: rgb(247, 247, 247);
+    font-family: sans-serif;
+    font-size: 14px;
+    height: 45px;
+    line-height: 20px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    opacity: 0.9;
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+.ProfileImageIcon {
+    width: 100px;
+    padding: 5px;
 }

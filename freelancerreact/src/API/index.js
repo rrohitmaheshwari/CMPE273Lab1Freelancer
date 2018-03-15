@@ -7,7 +7,11 @@ export const RESTService = {
     login,
     register,
     fetchHomeProject,
-    logout
+    logout,
+    getBidDetails,
+    getprojectdetails,
+    getBidHeader,
+    postBid
 };
 
 function login(username, password) {
@@ -77,6 +81,53 @@ function fetchHomeProject(user) {
     };
 
     return fetch(`${api}/home/getdetails`, requestOptions).then(handleResponse);
+}
+
+
+
+
+
+function getprojectdetails(project_id) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json','Accept':'application/json' },
+        credentials:'include',
+
+    };
+
+    return fetch(`${api}/project/getprojectdetails?project_id=${project_id}`, requestOptions).then(handleResponse);
+}
+
+function getBidDetails(project_id) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json','Accept':'application/json' },
+        credentials:'include',
+        body: JSON.stringify({project_id})
+    };
+    return fetch(`${api}/project/getdetails`, requestOptions).then(handleResponse);
+}
+
+function getBidHeader(project_id) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json','Accept':'application/json' },
+        credentials:'include',
+    };
+    return fetch(`${api}/project/getbidheader?project_id=${project_id}`, requestOptions).then(handleResponse);
+
+}
+
+
+function postBid(data) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json','Accept':'application/json' },
+        credentials:'include',
+        body: JSON.stringify({data})
+    };
+    return fetch(`${api}/project/postbiddata`, requestOptions).then(handleResponse);
+
 }
 
 function logout() {

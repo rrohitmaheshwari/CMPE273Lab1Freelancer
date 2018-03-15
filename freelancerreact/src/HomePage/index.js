@@ -13,15 +13,11 @@ class HomePage extends React.Component {
         e.preventDefault();
 
         console.log(e.target.value);
-        //const {dispatch} = this.props;
-       // dispatch({type: dispatch_setter});
+        var project_id=e.target.value;
         const {dispatch} = this.props;
-
         dispatch({type: "UNSET"});
-
-        history.push(push_page);
-
-
+       // dispatch({type: "SET_PROJECT_DETAILS",project_id});
+        history.push(push_page+"?project_id="+project_id);
     }
     componentWillMount(){
         const {dispatch} = this.props;

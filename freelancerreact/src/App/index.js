@@ -161,8 +161,8 @@ class App extends React.Component {
                             <Route exact path="/MyProfile" component={MyProfile}/>}
                         {!user ? <Route exact path="/PostProject" component={LoginPage}/> :
                             <Route exact path="/PostProject" component={PostProject}/>}
-                        {!user ? <Route exact path="/BidProject" component={LoginPage}/> :
-                            <Route exact path="/BidProject" component={BidProject}/>}
+                        {!user ? <Route startsWith path="/BidProject" component={LoginPage}/> :
+                            <Route startsWith path="/BidProject" component={BidProject}/>}
 
                     </div>
                 </Router>

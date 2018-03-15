@@ -4,7 +4,7 @@ import {registration} from './registration.reducer';
 import {alert} from './alert.reducer';
 import {navbar} from './navbar';
 import {homecontent} from './homecontent';
-
+import{detailsproject} from './detailsproject'
 
 
 const rootReducer = combineReducers({
@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
     registration,
     alert,
     navbar,
-    homecontent,
+    homecontent
 });
 
 export default rootReducer;

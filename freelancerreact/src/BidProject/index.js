@@ -35,6 +35,7 @@ class BidProject extends React.Component {
             Project_Fee:'0',
             Your_Total_Bid:'0',
             Weekly_Milestone:'0',
+            files:[]
         };
         this.handleChange = this.handleChange.bind(this);
     };
@@ -104,6 +105,9 @@ class BidProject extends React.Component {
                         history.push('/HomePage');  //home page if no project found
                     }
                     this.setState({"project_details": response.result[0]});
+
+                    this.setState({"files": this.state.project_details.file.split(",")});
+                    console.log(this.state.files);
                     console.log(this.state.project_details);
                 },
                 error => {
@@ -128,10 +132,6 @@ class BidProject extends React.Component {
                     console.log("Error/fetchHomeProject:");
                     console.log(error);
 
-                    //   localStorage.removeItem('user');
-                    //  dispatch({type: "USERS_LOGOUT"});
-                    //  RESTService.logout();
-                    //  history.push('/Login');  //home page after session expire
 
                 }
             );
@@ -363,7 +363,22 @@ class BidProject extends React.Component {
                                         <br/>
                                         <span className="ProjectTitleSubheading"> Skills Required</span>
                                         <span>{this.state.project_details.skills_req}</span>
+                                        <br/>
+                                        <br/>
+                                        <span className="ProjectTitleSubheading">Files</span>
+                                        <span>{
+                                            this.state.files.map((data) =>
+                                              <div key={data}>
+                                               <a target="_blank" href={`http://localhost:3001/project_files/${this.state.project_details.emp_username}/${data}`}>
+                                                  {data}
+                                                </a>
+                                                <br/>
+                                              </div>
+                                            )
 
+
+                                        }</span>
+                                        <br/>
 
                                     </div>
                                     <div className="col-sm-4 col-sm-offset-0">
@@ -373,8 +388,7 @@ class BidProject extends React.Component {
                                         </button>
                                         <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/> <br/>
                                         <br/> <br/>
-                                        <span
-                                            id="textrightshift100"><b>Project Id:</b></span>{this.state.project_details.project_id}
+                                        <span id="textrightshift100"><b>Project Id:</b></span>{this.state.project_details.project_id}
                                     </div>
 
                                 </div>
@@ -408,8 +422,7 @@ class BidProject extends React.Component {
                                         {this.state.showtable &&
                                         this.state.bid_table_data.map((data) =>
                                             <tr key={data.id}>
-                                                <td><img className="ProfileImageIcon" src={ProfileImage}
-                                                         alt="ProfileImage"/></td>
+                                                <td> <img className="ProfileImageIcon" src={`http://localhost:3001/ProfileImage/${data.username}.jpg`} onError={(e)=>{e.target.src=ProfileImage}}/></td>
                                                 <td>{data.name}<br/>@{data.username}</td>
                                                 <td>{data.bid_price} USD</td>
                                                 <td>{data.days_req} days</td>

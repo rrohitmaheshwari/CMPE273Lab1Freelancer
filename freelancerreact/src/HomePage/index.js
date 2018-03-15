@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Banner from '../Images/Banner.png';
 import Icon from '../Images/Freelancer Icon Short.png';
+import ProfileImage from '../Images/ProfileImage.png';
 import {history} from "../Helpers";
 import {userActions} from "../Actions";
 
@@ -140,7 +141,7 @@ class HomePage extends React.Component {
 
                                     <div className="col-sm-5 col-sm-offset-0">
                                         <div className="col-md-12 col-md-offset-0">
-                                            <img className="FreeLancerIcon" src={Icon} alt="UserProfileImage"/>
+                                            <img className="FreeLancerIcon" src={`http://localhost:3001/ProfileImage/${user.username}.jpg`} onError={(e)=>{e.target.src=ProfileImage}}/>
                                         </div>
                                     </div>
 

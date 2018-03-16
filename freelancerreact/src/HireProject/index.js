@@ -7,12 +7,11 @@ import {RESTService} from "../API";
 const queryString = require('query-string');
 
 
-class BidProject extends React.Component {
+class HireProject extends React.Component {
     constructor(props) {
 
         super(props);
         this.state = {
-            bid_button: false,
             project_details: {
                 "project_id": '',
                 "emp_username": '',
@@ -37,37 +36,10 @@ class BidProject extends React.Component {
             Weekly_Milestone:'0',
             files:[]
         };
-        this.handleChange = this.handleChange.bind(this);
+
     };
 
-    handleChange(e) {
 
-        const { name, value } = e.target;
-        this.setState({ [name]: value });
-
-
-        var bid= this.refs.bid_price.value;
-        var day=this.refs.bid_date.value;
-        console.log("bid:"+bid);
-
-        console.log("day:"+day);
-
-
-        if(bid!=='' && day!=='')
-        {
-            this.setState({ Project_Fee: (bid/day).toFixed(2) });
-            this.setState({ Your_Total_Bid: ((15+bid)/(day*24)).toFixed(2) });
-            if(day>=7)
-            this.setState({ Weekly_Milestone: ((bid/day)*7).toFixed(2) });
-
-        }
-        else
-        {
-
-            this.setState({ Project_Fee: '0' });
-
-        }
-    }
     componentWillMount() {
         var parsed = queryString.parse(this.props.location.search);
 
@@ -105,10 +77,11 @@ class BidProject extends React.Component {
                         history.push('/HomePage');  //home page if no project found
                     }
                     this.setState({"project_details": response.result[0]});
+
                     if(this.state.project_details.file && this.state.project_details.file.indexOf(",") > 0)
-                    this.setState({"files": this.state.project_details.file.split(",")});
+                        this.setState({"files": this.state.project_details.file.split(",")});
                     else
-                    this.setState({"files": []});
+                        this.setState({"files": []});
                     console.log(this.state.files);
                     console.log(this.state.project_details);
                 },
@@ -142,54 +115,34 @@ class BidProject extends React.Component {
     }
 
 
-    handleBidProject(e) {
+    handleSubmit( e) {
         e.preventDefault();
+        console.log("Hit");
+        console.log(e.target.value);
+        console.log(this.state.project_details.project_id);
 
-        this.setState({
-            bid_button: !this.state.bid_button,
-        });
+        var insert_Data = {
+            freelancer_username:e.target.value,
+            project_id:this.state.project_details.project_id,
+        }
+
+        RESTService.postFreelancer(insert_Data)
+            .then(
+                response => {
+                    console.log(response);
+                    window.alert('Success!');
+                    history.push("/HomePage")
+
+                },
+                error => {
+                    console.log("Error/fetchHomeProject:");
+                    console.log(error);
+                }
+            );
+
 
     }
 
-    handleBid(e) {
-        e.preventDefault();
-        const {user} =this.props;
-
-        if(!isNaN(this.state.bid_price) && !isNaN(this.state.bid_date) && this.state.bid_price!=='' && this.state.bid_date!=='') {
-            var insert_Data = {
-                user_id:user.user_id,
-                project_id:this.state.project_details.project_id,
-                bid_price:this.state.bid_price,
-                days_req:this.state.bid_date,
-
-            }
-            console.log(insert_Data);
-
-
-            RESTService.postBid(insert_Data)
-                .then(
-                    response => {
-                        console.log(response);
-                        window.alert('Success!');
-                        history.push("/HomePage")
-
-                    },
-                    error => {
-                        console.log("Error/fetchHomeProject:");
-                        console.log(error);
-                    }
-                );
-
-
-        }
-        else
-        {
-
-           window.alert('Invalid Input!');
-
-        }
-
-    }
 
     render() {
 
@@ -242,110 +195,6 @@ class BidProject extends React.Component {
                             </div>
 
 
-                            {this.state.bid_button &&
-                            <div className="panel panel-primary" id="shadowpanel">
-                                <div className="BidDetails">
-
-
-                                    <div className="col-sm-10 col-sm-offset-0">
-
-
-                                        <span className="ProjectTitleSubheading">  Bid Proposal </span>
-                                        <br/>
-                                        <br/>
-
-                                        <div className="col-sm-12 col-sm-offset-0">
-                                            <div className="col-md-4 col-md-offset-0">
-                                                <b>Bid Price</b>
-                                                <br/>
-
-
-                                                <span className="input-group">
-                                            <span className="add-on">$</span>
-                                            <input className="BidProposal-form-input" ref="bid_price" name="bid_price" type="text" placeholder="0"  onChange={this.handleChange}/>
-                                            <span className="add-on">USD</span>
-                                        </span>
-                                                <br/>
-                                            </div>
-
-                                            <div className="col-md-4 col-md-offset-0">
-                                                <b>Bid Days</b>
-
-                                                <br/>
-
-
-                                                <span className="input-group">
-                                            <span className="add-on"> </span>
-                                            <input className="BidProposal-form-input" ref="bid_date" name="bid_date" type="text"  placeholder="0"  onChange={this.handleChange}/>
-                                            <span className="add-on">Days</span>
-                                        </span>
-                                                <br/>
-                                            </div>
-                                        </div>
-
-                                        <br/>
-
-
-                                        <br/>
-                                        <br/>
-
-                                        <div className="col-sm-7 col-sm-offset-0">
-                                            <div className="col-md-5 col-md-offset-0">
-                                                <span><em>Project Fee   </em></span>
-                                            </div>
-                                            <div className="col-md-7 col-md-offset-0">
-                                                <b>${this.state.Project_Fee} USD / Day</b>
-                                            </div>
-                                        </div>
-
-
-                                        <br/>
-                                        <div className="col-sm-7 col-sm-offset-0">
-
-
-                                            <div className="col-md-5 col-md-offset-0">
-                                                <span><em>Your Total Bid   </em></span>
-                                            </div>
-                                            <div className="col-md-7 col-md-offset-0">
-                                                <b>${this.state.Your_Total_Bid} USD / Hr</b>
-                                            </div>
-
-                                        </div>
-
-                                        <br/>
-                                        <div className="col-sm-7 col-sm-offset-0">
-
-
-                                            <div className="col-md-5 col-md-offset-0">
-                                                <span><em>Weekly Milestone    </em></span>
-                                            </div>
-                                            <div className="col-md-7 col-md-offset-0">
-                                                <b>${this.state.Weekly_Milestone} USD</b>
-                                            </div>
-                                        </div>
-
-
-                                        <br/>
-                                        <br/>
-                                        <br/>
-
-                                        <div className="col-sm-8 col-sm-offset-0" id="borderlighttop">
-                                            <div className="col-md-6 col-md-offset-7">
-                                                <button className="btn btn-primary"
-                                                        id="BidProjectButtonProjectDetails"
-                                                        onClick={this.handleBid.bind(this)}>Place Bid</button>
-                                                <a onClick={this.handleBidProject.bind(this)}>Cancel</a>
-                                                <br/>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-
-
-                                </div>
-                            </div>
-                            }
 
 
                             <div className="panel panel-primary" id="shadowpanel">
@@ -385,9 +234,7 @@ class BidProject extends React.Component {
                                     </div>
                                     <div className="col-sm-4 col-sm-offset-0">
 
-                                        <button className="btn btn-primary" id="BidProjectButtonBig"
-                                                onClick={this.handleBidProject.bind(this)}>Bid On This Project
-                                        </button>
+
                                         <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/> <br/>
                                         <br/> <br/>
                                         <span id="textrightshift100"><b>Project Id:</b></span>{this.state.project_details.project_id}
@@ -407,6 +254,7 @@ class BidProject extends React.Component {
                                             <th>Freelancer Name</th>
                                             <th>Bid Price</th>
                                             <th>Period Days</th>
+                                            <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -415,7 +263,8 @@ class BidProject extends React.Component {
                                         {
                                             !this.state.showtable &&
                                             <tr>
-                                                <td>Be the first one to bid!</td>
+                                                <td>No one has bid yet!</td>
+                                                <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
@@ -428,6 +277,10 @@ class BidProject extends React.Component {
                                                 <td>{data.name}{' '}@{data.username}</td>
                                                 <td>{data.bid_price} USD</td>
                                                 <td>{data.days_req} days</td>
+                                                <td><button className="btn btn-primary" id="BidProjectButton" value={data.username} onClick={this.handleSubmit.bind(this)}>Hire
+                                                </button></td>
+
+
                                             </tr>
                                         )
                                         }
@@ -458,5 +311,5 @@ function mapStateToProps(state) {
     };
 }
 
-const connectedBidProject = connect(mapStateToProps)(BidProject);
-export {connectedBidProject as BidProject};
+const connectedHireProject = connect(mapStateToProps)(HireProject);
+export {connectedHireProject as HireProject};

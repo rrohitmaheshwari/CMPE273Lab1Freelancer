@@ -14,6 +14,7 @@ import {DashboardPage} from "../Dashboard";
 import {MyProfile} from "../MyProfile";
 import {PostProject} from "../PostProject";
 import {BidProject} from "../BidProject";
+import {HireProject} from "../HireProject";
 
 
 
@@ -163,6 +164,8 @@ class App extends React.Component {
                             <Route exact path="/PostProject" component={PostProject}/>}
                         {!user ? <Route startsWith path="/BidProject" component={LoginPage}/> :
                             <Route startsWith path="/BidProject" component={BidProject}/>}
+                        {!user ? <Route startsWith path="/HireProject" component={LoginPage}/> :
+                            <Route startsWith path="/HireProject" component={HireProject}/>}
 
                     </div>
                 </Router>

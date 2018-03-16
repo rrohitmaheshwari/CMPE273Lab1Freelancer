@@ -9,7 +9,7 @@ router.get('/', function (req, res, next) {
 
 /* POST user authentication. */
 router.post('/users/authenticate', function (req, res) {
-    console.log(req);
+
     var getUser = "select user_id,username,email,name,summary,phone,about_me,skills,looking_for from users where username='" + req.body.username + "' and password='" + req.body.password + "'";
     var username=req.body.username;
 
@@ -132,6 +132,38 @@ router.get('/project/getprojectdetails', function (req, res) {
 
 
 
+router.get('/project/getMyProjectDetails', function (req, res) {
+
+
+
+    var sqlQuery = "SELECT projects.project_id,title,DATE_FORMAT(projects.complete_by,'%d-%m-%Y') as complete_by_shortdate,status,freelancer_username,table2.avg_bid FROM freelancerdb.projects left join (SELECT project_id,avg(bid_price) as avg_bid FROM freelancerdb.user_projects group by project_id) as table2 on  projects.project_id=table2.project_id  where emp_username='"+req.query.username+"' order by status desc;";
+
+
+    console.log("Requesting session User->" + req.session.username);
+    if (req.session.username) {
+        mysql.fetchData(function (err, results) {
+            if (err) {
+                throw err;
+            }
+            else {
+
+                console.log("Fetch Project Details Successful!");
+                res.statusMessage = "Data fetched";
+                res.status(200).send({result: results});
+
+            }
+        }, sqlQuery);
+    }
+    else
+    {
+        console.log("Session expired!");
+        res.statusMessage = "Session expired!";
+        res.status(400).end();
+
+    }
+
+});
+
 router.get('/project/getbidheader', function (req, res) {
 
 
@@ -192,6 +224,39 @@ router.post('/project/getdetails', function (req, res) {
     }
 
 });
+
+
+
+router.post('/project/postFreelancer', function (req, res) {
+
+
+    var sqlQuery="UPDATE `freelancerdb`.`projects` SET `status`='Assigned',`freelancer_username`='"+req.body.data.freelancer_username+"' WHERE `project_id`='"+req.body.data.project_id+"';";
+    console.log("Query->" , sqlQuery);
+    console.log("Requesting session User>" + req.session.username);
+    if (req.session.username) {
+        mysql.fetchData(function (err, results) {
+            if (err) {
+                throw err;
+            }
+            else {
+
+                console.log("Fetch Project Details Successful!");
+                res.statusMessage = "Data Updated";
+                res.status(200).send({result: results});
+
+            }
+        }, sqlQuery);
+    }
+    else
+    {
+        console.log("Session expired!");
+        res.statusMessage = "Session expired!";
+        res.status(400).end();
+
+    }
+
+});
+
 
 
 router.post('/project/postbiddata', function (req, res) {
@@ -258,6 +323,8 @@ var deleteQuery="DELETE FROM `freelancerdb`.`user_projects` WHERE `user_id`='"+r
     }
 
 });
+
+
 
 
 

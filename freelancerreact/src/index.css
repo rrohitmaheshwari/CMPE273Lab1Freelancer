@@ -559,6 +559,7 @@ th, td {
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    line-height: 45px;
 }
 
 th {
@@ -588,4 +589,19 @@ tr:hover {
 .ProfileImageIcon {
     width: 100px;
     padding: 5px;
+}
+
+.FreeLancerIconDashboard{
+    width: 10%;
+    margin-right: 25px;
+}
+
+
+.noProject{
+    display:flex;
+    padding:10px;
+}
+.labelnoproject
+{
+    font-size: 18px;
 }

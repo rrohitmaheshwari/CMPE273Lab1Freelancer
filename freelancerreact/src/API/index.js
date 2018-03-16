@@ -11,7 +11,9 @@ export const RESTService = {
     getBidDetails,
     getprojectdetails,
     getBidHeader,
-    postBid
+    postBid,
+    getMyProjectDetails,
+    postFreelancer
 };
 
 function login(username, password) {
@@ -98,6 +100,17 @@ function getprojectdetails(project_id) {
     return fetch(`${api}/project/getprojectdetails?project_id=${project_id}`, requestOptions).then(handleResponse);
 }
 
+function getMyProjectDetails(username) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json','Accept':'application/json' },
+        credentials:'include',
+
+    };
+
+    return fetch(`${api}/project/getMyProjectDetails?username=${username}`, requestOptions).then(handleResponse);
+}
+
 function getBidDetails(project_id) {
     const requestOptions = {
         method: 'POST',
@@ -127,6 +140,17 @@ function postBid(data) {
         body: JSON.stringify({data})
     };
     return fetch(`${api}/project/postbiddata`, requestOptions).then(handleResponse);
+
+}
+
+function postFreelancer(data) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json','Accept':'application/json' },
+        credentials:'include',
+        body: JSON.stringify({data})
+    };
+    return fetch(`${api}/project/postFreelancer`, requestOptions).then(handleResponse);
 
 }
 

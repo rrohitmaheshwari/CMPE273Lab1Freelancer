@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('./mysql');
+let fs = require('fs');
+let path = require('path')
+
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -66,7 +69,7 @@ router.post('/users/register', function (req, res) {
 
 router.post('/home/getdetails', function (req, res) {
 
-    var sqlQuery = "SELECT *,count(user_projects_project_id) as bid_count from  (SELECT projects.project_id ,projects.emp_username,projects.title,projects.description,projects.budget_range,projects.skills_req, projects.status,DATE_FORMAT(projects.complete_by,'%d/%m/%Y') as niceDate,projects.file,user_projects.project_id as user_projects_project_id from  freelancerdb.projects left join freelancerdb.user_projects ON projects.project_id = user_projects.project_id Where status=\"OPEN\" ) as complete_table group by project_id";
+    var sqlQuery = "SELECT *,count(user_projects_project_id) as bid_count from  (SELECT projects.project_id ,projects.emp_username,projects.title,projects.description,projects.budget_range,projects.skills_req, projects.status,DATE_FORMAT(projects.complete_by,'%d/%m/%Y') as niceDate,user_projects.project_id as user_projects_project_id from  freelancerdb.projects left join freelancerdb.user_projects ON projects.project_id = user_projects.project_id Where status=\"OPEN\" ) as complete_table WHERE emp_username<>'"+req.body.username+"' group by project_id";
 
 
     console.log("Requesting session User" + req.session.username);
@@ -102,7 +105,7 @@ router.get('/project/getprojectdetails', function (req, res) {
 
 
 
-    var sqlQuery = "SELECT name,project_id,emp_username,title,description,budget_range,skills_req,file,DATE_FORMAT(projects.complete_by,'%d-%m-%Y') as complete_by_shortdate from  projects inner join users on  projects.emp_username =  users.username where project_id='"+req.query.project_id+"';";
+    var sqlQuery = "SELECT name,project_id,emp_username,title,description,budget_range,skills_req,filenames,DATE_FORMAT(projects.complete_by,'%d-%m-%Y') as complete_by_shortdate from  projects inner join users on  projects.emp_username =  users.username where project_id='"+req.query.project_id+"';";
 
 
     console.log("Requesting session User->" + req.session.username);
@@ -148,6 +151,42 @@ router.get('/project/getMyProjectDetails', function (req, res) {
             else {
 
                 console.log("Fetch Project Details Successful!");
+                res.statusMessage = "Data fetched";
+                res.status(200).send({result: results});
+
+            }
+        }, sqlQuery);
+    }
+    else
+    {
+        console.log("Session expired!");
+        res.statusMessage = "Session expired!";
+        res.status(400).end();
+
+    }
+
+});
+
+
+
+
+
+router.get('/project/getMyBidDetails', function (req, res) {
+
+
+
+    var sqlQuery = "SELECT * from projects inner join (SELECT * FROM freelancerdb.user_projects inner join (SELECT project_id as table_bid_pid,avg(bid_price) as avg_bid FROM freelancerdb.user_projects group by project_id) as user_projects_avg  on user_projects.project_id=user_projects_avg.table_bid_pid where user_id='"+req.query.user_id+"') as table_bid on projects.project_id=table_bid.table_bid_pid order by status desc;";
+    console.log(sqlQuery);
+
+    console.log("Requesting session User->" + req.session.username);
+    if (req.session.username) {
+        mysql.fetchData(function (err, results) {
+            if (err) {
+                throw err;
+            }
+            else {
+
+                console.log("Fetch Bid Details Successful!");
                 res.statusMessage = "Data fetched";
                 res.status(200).send({result: results});
 
@@ -343,6 +382,66 @@ router.post('/user/logout', function (req, res) {
     }
 
 });
+
+
+
+router.post('/getProfileImg', function(req, res, next) {
+    if(req.session.username) {
+        fs.readFile('/Users/rohit/Documents/GitHub/CMPE273/CMPE273Lab1Freelancer/FreelancerNodeServer/public/ProfileImage/' + req.body.username + '.jpg', function (err, content) {
+            console.log("###img:", content);
+            if (err) {
+                res.writeHead(400, {'Content-type': 'text/html'})
+                console.log(err);
+                res.end("No such image");
+            } else {
+                //specify the content type in the response will be an image
+                let base64Image = new Buffer(content, 'binary').toString('base64');
+
+                console.log("###image in node");
+                //convert image file to base64-encoded string
+                res.status(200).send({img: base64Image});
+                // res.end({img : base64Image});
+            }
+        });
+    } else {
+        res.statusMessage = "invalid session";
+        res.status(401).end();
+    }
+});
+
+
+router.post('/getOtherUser', function(req, res, next) {
+    //  console.log("req:"+req);
+    console.log("req.session.username:"+req.session.username);
+    if(req.session.username) {
+        var getUser = "select * from users where username='" + req.body.username + "'";
+        console.log("Query is:"+getUser);
+        mysql.fetchData(function(err,results){
+            if(err){
+                throw err;
+            }
+            else {
+                if(results.length > 0){
+                    console.log("valid Login");
+                    console.log("results:"+results);
+                    console.log("results[0]:"+results[0]);
+                    // //Assigning the session
+                    res.status(200).send({user : results[0]});
+                }
+                else {
+                    console.log("Invalid Login");
+                    res.statusMessage = "Username does not exist. Please double-check and try again.";
+                    res.status(400).end();
+                }
+            }
+        },getUser);
+    } else {
+        res.statusMessage = "invalid session";
+        res.status(401).end();
+    }
+});
+
+
 
 
 module.exports = router;

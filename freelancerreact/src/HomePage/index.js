@@ -90,7 +90,7 @@ class HomePage extends React.Component {
                                                 </div>
                                                 <div className="col-sm-4 col-sm-offset-0">
 
-                                                    <a> <span className="ProjectTitle"> {data.title}</span></a>
+                                                    <a href={`/BidProject?project_id=${data.project_id}`}> <span className="ProjectTitle"> {data.title}</span></a>
                                                     <br/>
                                                     <span className="ProjectDescription"> {data.description}</span>
                                                     <br/>
@@ -108,7 +108,7 @@ class HomePage extends React.Component {
                                                 </div>
                                                 <div className="col-sm-2 col-sm-offset-0">
 
-                                                    <span className="shiftsmallleft">{data.emp_username}</span>
+                                                    <span className="shiftsmallleft"><a href={`/ViewProfilePage/${data.emp_username}`}>@{data.emp_username}</a></span>
 
                                                 </div>
                                                 <div className="col-sm-2 col-sm-offset-0">
@@ -149,7 +149,7 @@ class HomePage extends React.Component {
                                     <div className="col-sm-7 col-sm-offset-0">
                                         <div className="col-md-11 col-md-offset-0">
                                             <h5><b>Welcome back,</b></h5>
-                                            <h4><b>@{user.username}</b></h4>
+                                            <h4><b><a href={`/MyProfile`}>@{user.username}</a></b></h4>
                                         </div>
                                     </div>
                                 </div>

@@ -15,6 +15,9 @@ import {MyProfile} from "../MyProfile";
 import {PostProject} from "../PostProject";
 import {BidProject} from "../BidProject";
 import {HireProject} from "../HireProject";
+import {ViewProfilePage} from "../ViewProfilePage";
+
+
 
 
 
@@ -166,6 +169,9 @@ class App extends React.Component {
                             <Route startsWith path="/BidProject" component={BidProject}/>}
                         {!user ? <Route startsWith path="/HireProject" component={LoginPage}/> :
                             <Route startsWith path="/HireProject" component={HireProject}/>}
+                        {!user ? <Route exact path="/ViewProfilePage/:username" component={LoginPage}/> :
+                            <Route exact path="/ViewProfilePage/:username" component={ViewProfilePage}/>}
+
 
                     </div>
                 </Router>

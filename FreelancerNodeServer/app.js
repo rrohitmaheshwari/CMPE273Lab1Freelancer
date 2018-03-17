@@ -24,7 +24,7 @@ app.use(logger('dev'));
 
 app.use(cors(
     {
-        origin: 'http://localhost:3000',
+        origin: ['http://localhost:3000', 'http://10.0.0.137:3000','http://10.0.0.188:3000'],
         credentials: true,
     }
 ));

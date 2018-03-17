@@ -21,7 +21,7 @@ class BidProject extends React.Component {
                 "budget_range": '',
                 "skills_req": '',
                 "complete_by_shortdate": '',
-                "file": '',
+                "filenames": '',
                 "name": ''
             },
             bid_table_data: {},
@@ -35,7 +35,7 @@ class BidProject extends React.Component {
             Project_Fee:'0',
             Your_Total_Bid:'0',
             Weekly_Milestone:'0',
-            files:[]
+            filenames:[]
         };
         this.handleChange = this.handleChange.bind(this);
     };
@@ -105,11 +105,11 @@ class BidProject extends React.Component {
                         history.push('/HomePage');  //home page if no project found
                     }
                     this.setState({"project_details": response.result[0]});
-                    if(this.state.project_details.file && this.state.project_details.file.indexOf(",") > 0)
-                    this.setState({"files": this.state.project_details.file.split(",")});
+                    if(this.state.project_details.filenames && this.state.project_details.filenames.indexOf(",") > 0)
+                    this.setState({"filenames": this.state.project_details.filenames.split(",")});
                     else
-                    this.setState({"files": []});
-                    console.log(this.state.files);
+                    this.setState({"filenames": []});
+                    console.log(this.state.filenames);
                     console.log(this.state.project_details);
                 },
                 error => {
@@ -360,7 +360,7 @@ class BidProject extends React.Component {
                                         <br/>
                                         <span className="ProjectTitleSubheading"> Employer</span>
                                         <br/>
-                                        <span>{this.state.project_details.name}<br/>@{this.state.project_details.emp_username}</span>
+                                        <span>{this.state.project_details.name}<br/><a href={`/ViewProfilePage/${this.state.project_details.emp_username}`}>@{this.state.project_details.emp_username}</a></span>
                                         <br/>
                                         <br/>
                                         <span className="ProjectTitleSubheading"> Skills Required</span>
@@ -369,7 +369,7 @@ class BidProject extends React.Component {
                                         <br/>
                                         <span className="ProjectTitleSubheading">Files</span>
                                         <span>{
-                                            this.state.files.map((data) =>
+                                            this.state.filenames.map((data) =>
                                               <div key={data}>
                                                <a target="_blank" href={`http://localhost:3001/project_files/${this.state.project_details.emp_username}/${data}`}>
                                                   {data}
@@ -423,9 +423,10 @@ class BidProject extends React.Component {
                                         }
                                         {this.state.showtable &&
                                         this.state.bid_table_data.map((data) =>
-                                            <tr key={data.id}>
+                                            <tr key={data.id} className="bidtablerow">
                                                 <td> <img className="ProfileImageIcon" src={`http://localhost:3001/ProfileImage/${data.username}.jpg`} onError={(e)=>{e.target.src=ProfileImage}}/></td>
-                                                <td>{data.name}{' '}@{data.username}</td>
+                                                <td><p>{data.name}</p>
+                                                    <a href={`/ViewProfilePage/${data.username}`}>@{data.username}</a></td>
                                                 <td>{data.bid_price} USD</td>
                                                 <td>{data.days_req} days</td>
                                             </tr>

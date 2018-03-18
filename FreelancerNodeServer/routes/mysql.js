@@ -1,4 +1,3 @@
-
 var mysql = require('mysql');
 
 //Put your mysql configuration settings - user, password, database and port
@@ -29,4 +28,5 @@ function fetchData(callback,sqlQuery){
     });
 }
 exports.fetchData=fetchData;
+
 

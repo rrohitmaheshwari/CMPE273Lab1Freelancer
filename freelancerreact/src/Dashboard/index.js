@@ -132,7 +132,7 @@ class DashboardPage extends React.Component {
                                         <tr>
 
 
-                                            <th>Project Title</th>
+                                            <th className="Paddingleft100">Project Title</th>
                                             <th>Average Bid</th>
                                             <th>Complete by</th>
                                             <th>Status</th>
@@ -145,11 +145,14 @@ class DashboardPage extends React.Component {
                                         {this.state.my_project_details.map((data) =>
                                             <tr key={data.project_id}>
                                                 <td><img className="FreeLancerIconDashboard" src={Icon} alt="FreelancerIcon"/>
-                                                    {data.title}</td>
+                                                    <a href={`/HireProject?project_id=${data.project_id}`}>{data.title}</a></td>
                                                 <td>{Number(data.avg_bid).toFixed(2)}</td>
                                                 <td>{data.complete_by_shortdate}</td>
                                                 <td>{data.status}</td>
-                                                <td>{data.freelancer_username && `@${data.freelancer_username}`}
+                                                <td>{
+                                                    data.freelancer_username &&
+                                                    <a href={`/ViewProfilePage/${data.freelancer_username}`}>@{data.freelancer_username}</a>
+                                                }
                                                     {!data.freelancer_username &&
                                                     <button className="btn btn-primary" id="BidProjectButton"
                                                             value={data.project_id}
@@ -210,7 +213,7 @@ class DashboardPage extends React.Component {
                                     <table className="m-table">
                                         <thead>
                                         <tr>
-                                            <th>Project Title</th>
+                                            <th className="Paddingleft100">Project Title</th>
                                             <th>Employer</th>
                                             <th>Avg Bid</th>
                                             <th>Your Bid</th>
@@ -223,8 +226,8 @@ class DashboardPage extends React.Component {
                                         {this.state.my_bid_details.map((data) =>
                                             <tr key={data.project_id}>
                                                 <td><img className="FreeLancerIconDashboard" src={Icon} alt="FreelancerIcon"/>
-                                                    {data.title}</td>
-                                                <td>@{data.emp_username}</td>
+                                                    <a href={`/BidProject?project_id=${data.project_id}`}>{data.title}</a></td>
+                                                <td><a href={`/ViewProfilePage/${data.emp_username}`}>@{data.emp_username}</a></td>
                                                 <td>{Number(data.avg_bid).toFixed(2)}</td>
                                                 <td>{data.bid_price}</td>
                                                 <td>{data.status}</td>

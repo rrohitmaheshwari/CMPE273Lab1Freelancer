@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('./mysql');
+//var mysql = require('./mysql_without_connectionPool');
 let fs = require('fs');
 let path = require('path')
 const bcrypt    = require('bcryptjs');
@@ -364,8 +365,9 @@ var deleteQuery="DELETE FROM `freelancerdb`.`user_projects` WHERE `user_id`='"+r
 
                 mysql.fetchData(function (err, results) {
                     if (err) {
-                        throw err;
                         res.status(400).send("DB Fail");
+                        throw err;
+
                     }
                     else {
                         console.log(insertQuery);

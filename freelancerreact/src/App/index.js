@@ -55,6 +55,10 @@ class App extends React.Component {
 
     }
 
+    componentWillMount(){
+        const { dispatch } = this.props;
+        dispatch(userActions.getByUserName());
+    }
     render() {
         const { user, navbar} = this.props;
         var homepage = false, dashboardpage = false, profilepage = false;

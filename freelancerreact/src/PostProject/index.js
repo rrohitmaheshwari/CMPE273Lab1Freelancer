@@ -131,7 +131,7 @@ class PostProject extends React.Component {
                 description     : desc,
                 budget_range    : pay,
                 skills_req      : skills,
-                status          : 'OPEN',
+                status          : 'Open',
                 complete_by     : date,
                 filenames       : filenames
             };
@@ -141,12 +141,13 @@ class PostProject extends React.Component {
                         .then(
                             response => {
                                 console.log(response.data.message);
-                               // dispatch(alertActions.projectPostSuccess(response.data.message));
-                                Alert.info(response.data.message, {
-                                    effect: 'jelly',
-                                    timeout: 1500,
-                                    offset: 50
-                                });
+
+                                // Alert.info(response.data.message, {
+                                //     effect: 'jelly',
+                                //     timeout: 1500,
+                                //     offset: 50
+                                // });
+                                window.alert(response.data.message);
                             },
                             error => {
                               //  dispatch(alertActions.projectPostError(error.data.message));

@@ -33,8 +33,8 @@ class BidProject extends React.Component {
             bid_price: '0',
             bid_date: '0',
             Project_Fee:'0',
-            Your_Total_Bid:'0',
-            Weekly_Milestone:'0',
+            Freelancer_Fees:'0',
+            Total_Bid:'0',
             filenames:[]
         };
         this.handleChange = this.handleChange.bind(this);
@@ -56,15 +56,16 @@ class BidProject extends React.Component {
         if(bid!=='' && day!=='')
         {
             this.setState({ Project_Fee: (bid/day).toFixed(2) });
-            this.setState({ Your_Total_Bid: ((15+bid)/(day*24)).toFixed(2) });
-            if(day>=7)
-            this.setState({ Weekly_Milestone: ((bid/day)*7).toFixed(2) });
+            this.setState({ Freelancer_Fees: (bid*0.1).toFixed(2) });
+            this.setState({ Total_Bid: (bid*1.1).toFixed(2) });
 
         }
         else
         {
 
             this.setState({ Project_Fee: '0' });
+            this.setState({ Freelancer_Fees: '0' });
+            this.setState({ Total_Bid: '0' });
 
         }
     }
@@ -304,10 +305,10 @@ class BidProject extends React.Component {
 
 
                                             <div className="col-md-5 col-md-offset-0">
-                                                <span><em>Your Total Bid   </em></span>
+                                                <span><em>Free Lancer fee   </em></span>
                                             </div>
                                             <div className="col-md-7 col-md-offset-0">
-                                                <b>${this.state.Your_Total_Bid} USD / Hr</b>
+                                                <b>${this.state.Freelancer_Fees} USD</b>
                                             </div>
 
                                         </div>
@@ -317,10 +318,10 @@ class BidProject extends React.Component {
 
 
                                             <div className="col-md-5 col-md-offset-0">
-                                                <span><em>Weekly Milestone    </em></span>
+                                                <span><em>Your Total Bid    </em></span>
                                             </div>
                                             <div className="col-md-7 col-md-offset-0">
-                                                <b>${this.state.Weekly_Milestone} USD</b>
+                                                <b>${this.state.Total_Bid} USD</b>
                                             </div>
                                         </div>
 

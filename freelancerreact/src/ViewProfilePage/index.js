@@ -55,12 +55,12 @@ class ViewProfilePage extends React.Component {
                     <div className="container-info">
                         <div className="grid-info">
                             <div className="grid-col">
-                                <div className="row profile-info-card">
+                                <div className="row profile-info-card" id="shadowpanel">
                                     <div className="col-sm-3 col-md-3 col-lg-3 profile-avatar">
-                                        <div className="profile-avatar-image">
+                                        <div className="profile-avatar-image" id="shadowpanel">
                                             <div className="profile-avatar-image-uploader">
                                                 <div className="profile-avatar-image-wrapper">
-                                                    <div className="profile-avatar-image-done">
+                                                    <div className="profile-avatar-image-done" >
                                                         <img className="avatar-image" src={imgSrc} alt="Profile"/>
                                                     </div>
                                                 </div>
@@ -105,7 +105,7 @@ class ViewProfilePage extends React.Component {
                                         </div>
                                     </div>
                                     <div className="col-sm-3 col-md-3 col-lg-3 profile-stats">
-                                        <h2 className="view-profile-stats-skills">
+                                        <h2 className="view-profile-stats-skills" >
                                             Top Skills
                                         </h2>
                                         {

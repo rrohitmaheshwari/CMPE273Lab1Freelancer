@@ -20,7 +20,7 @@ class HireProject extends React.Component {
                 "budget_range": '',
                 "skills_req": '',
                 "complete_by_shortdate": '',
-                "file": '',
+                "filenames": '',
                 "name": ''
             },
             bid_table_data: {},
@@ -34,7 +34,7 @@ class HireProject extends React.Component {
             Project_Fee:'0',
             Your_Total_Bid:'0',
             Weekly_Milestone:'0',
-            files:[]
+            filenames:[]
         };
 
     };
@@ -78,11 +78,11 @@ class HireProject extends React.Component {
                     }
                     this.setState({"project_details": response.result[0]});
 
-                    if(this.state.project_details.file && this.state.project_details.file.indexOf(",") > 0)
-                        this.setState({"files": this.state.project_details.file.split(",")});
+                    if(this.state.project_details.filenames && this.state.project_details.filenames.indexOf(",") > 0)
+                        this.setState({"filenames": this.state.project_details.filenames.split(",")});
                     else
-                        this.setState({"files": []});
-                    console.log(this.state.files);
+                        this.setState({"filenames": []});
+                    console.log(this.state.filenames);
                     console.log(this.state.project_details);
                 },
                 error => {
@@ -218,7 +218,7 @@ class HireProject extends React.Component {
                                         <br/>
                                         <span className="ProjectTitleSubheading">Files</span>
                                         <span>{
-                                            this.state.files.map((data) =>
+                                            this.state.filenames.map((data) =>
                                               <div key={data}>
                                                <a target="_blank" href={`http://localhost:3001/project_files/${this.state.project_details.emp_username}/${data}`}>
                                                   {data}

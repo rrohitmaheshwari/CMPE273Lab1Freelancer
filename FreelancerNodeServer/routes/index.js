@@ -3,6 +3,8 @@ var router = express.Router();
 var mysql = require('./mysql');
 let fs = require('fs');
 let path = require('path')
+const bcrypt    = require('bcryptjs');
+const multer = require('multer');
 
 
 /* GET home page. */
@@ -13,7 +15,7 @@ router.get('/', function (req, res, next) {
 /* POST user authentication. */
 router.post('/users/authenticate', function (req, res) {
 
-    var getUser = "select user_id,username,email,name,summary,phone,about_me,skills,looking_for from users where username='" + req.body.username + "' and password='" + req.body.password + "'";
+    var getUser = "select user_id,username,email,name,summary,phone,about_me,skills,looking_for,password from users where username='" + req.body.username + "'";
     var username=req.body.username;
 
     mysql.fetchData(function (err, results) {
@@ -22,13 +24,19 @@ router.post('/users/authenticate', function (req, res) {
         }
         else {
             if (results.length > 0) {
-                req.session.username=username;
-                console.log("Session initialized");
-                console.log("Login Successful!");
-                console.log("results[0]:" + results[0]);
-
-
-                res.status(200).send({user: results[0]});
+                bcrypt.compare(req.body.password, results[0].password, function (err, resp) {
+                    if (resp) {
+                        // Passwords match
+                        console.log("valid Login");
+                        //Assigning the session
+                        req.session.username = req.body.username;
+                        res.status(200).send({user: results[0]});
+                    } else {
+                        // Passwords doesn't match
+                        res.statusMessage="The email and password you entered did not match our records. Please double-check and try again.";
+                        res.status(400).end();
+                    }
+                })
             }
             else {
                 console.log("Invalid Login!");
@@ -41,35 +49,69 @@ router.post('/users/authenticate', function (req, res) {
 
 
 /* POST user registration. */
-router.post('/users/register', function (req, res) {
-   // console.log(req.body);
+router.post('/users/register', function(req,res) {
+    console.log(req.body);
+    // check user already exists
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(req.body.password, salt, (err, hash) => {
 
-        var insertQuery = "INSERT INTO `users` (`name`,`email`, `username`, `password`,`looking_for`) VALUES ('" + req.body.Name + "','" + req.body.Email + "', '" + req.body.username + "', '" + req.body.password + "', '" + req.body.looking_for + "')";
-        mysql.fetchData(function (err, results) {
-            if (err) {
-                if (err.message.includes("'username_UNIQUE'")) {
-                    res.statusMessage = "This username already exists!";
-                } else if (err.message.includes("'email_UNIQUE'")) {
-                    res.statusMessage = "This email address is already in use!";
+            let insertQuery = "INSERT INTO `users` (`name`,`email`, `username`, `password`,`looking_for`) VALUES ('" + req.body.Name + "','" + req.body.Email + "', '" + req.body.username + "', '" + hash + "', '" + req.body.looking_for +"')";
+            mysql.fetchData(function (err, results) {
+                if (err) {
+                    if(err.message.includes("for key 'username_UNIQUE'")) {
+                        res.statusMessage = "This username already exists!";
+                    }else if(err.message.includes("for key 'email_UNIQUE'")) {
+                        res.statusMessage = "This email address is already in use!";
+                    }
+                    console.log("reject");
+                    res.status(400).end();
                 }
-                console.log("reject");
-                res.status(400).end();
-            }
-            else {
-                res.status(200).send({user: 'User created successfully!'});
-            }
-        }, insertQuery);
-
-
+                else {
+                    res.status(200).send({user:"User created successfully"});
+                }
+            }, insertQuery);
+        })
+    })
 
 });
 
+
+
+router.post('/getUser', function(req, res, next) {
+    //  console.log("req:"+req);
+    console.log("req.session.username:"+req.session.username);
+    if(req.session.username) {
+        var getUser = "select * from users where username='" + req.session.username + "'";
+        console.log("Query is:"+getUser);
+        mysql.fetchData(function(err,results){
+            if(err){
+                throw err;
+            }
+            else {
+                if(results.length > 0){
+                    console.log("valid Login");
+                    console.log("results[0]:"+results[0]);
+                    //Assigning the session
+                    res.status(200).send({user : results[0]});
+                }
+                else {
+                    console.log("Invalid Login");
+                    res.statusMessage = "Username does not exist. Please double-check and try again.";
+                    res.status(400).end();
+                }
+            }
+        },getUser);
+    } else {
+        res.statusMessage = "invalid session";
+        res.status(401).end();
+    }
+});
 
 /* POST user home details. */
 
 router.post('/home/getdetails', function (req, res) {
 
-    var sqlQuery = "SELECT *,count(user_projects_project_id) as bid_count from  (SELECT projects.project_id ,projects.emp_username,projects.title,projects.description,projects.budget_range,projects.skills_req, projects.status,DATE_FORMAT(projects.complete_by,'%d/%m/%Y') as niceDate,user_projects.project_id as user_projects_project_id from  freelancerdb.projects left join freelancerdb.user_projects ON projects.project_id = user_projects.project_id Where status=\"OPEN\" ) as complete_table WHERE emp_username<>'"+req.body.username+"' group by project_id";
+    var sqlQuery = "SELECT *,count(user_projects_project_id) as bid_count from  (SELECT projects.project_id ,projects.emp_username,projects.title,projects.description,projects.budget_range,projects.skills_req, projects.status,DATE_FORMAT(projects.complete_by,'%d/%m/%Y') as niceDate,user_projects.project_id as user_projects_project_id from  freelancerdb.projects left join freelancerdb.user_projects ON projects.project_id = user_projects.project_id Where status=\"Open\" ) as complete_table WHERE emp_username<>'"+req.body.username+"' group by project_id";
 
 
     console.log("Requesting session User" + req.session.username);
@@ -334,7 +376,6 @@ var deleteQuery="DELETE FROM `freelancerdb`.`user_projects` WHERE `user_id`='"+r
                     }
                 }, insertQuery);
 
-
             }
         }, deleteQuery);
 
@@ -347,17 +388,6 @@ var deleteQuery="DELETE FROM `freelancerdb`.`user_projects` WHERE `user_id`='"+r
         console.log("Session expired!");
         res.statusMessage = "Session expired!";
         res.status(400).end();
-        Alert.alert(
-            'Alert Title',
-            'My Alert Msg',
-            [
-                {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-                {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                {text: 'OK', onPress: () => console.log('OK Pressed')},
-            ],
-            { cancelable: false }
-        )
-
 
     }
 
@@ -441,7 +471,174 @@ router.post('/getOtherUser', function(req, res, next) {
     }
 });
 
+router.post('/user/updateAboutMe', function(req,res) {
+    console.log(req.body);
+    // check user already exists
+    let updateQuery = "UPDATE `users` SET `about_me`='" + req.body.about +"' WHERE `username`='" + req.session.username + "'";
+    mysql.fetchData(function (err, results) {
+        if (err) {
+            res.statusMessage = "Cannot set 'About Me' at the moment";
+            res.status(400).end();
+        } else {
+            res.status(200).send({about:"Updated 'About Me' successfully"});
+        }
+    }, updateQuery);
+});
 
+
+router.post('/user/updateSummary', function(req,res) {
+    console.log(req.body);
+    // check user already exists
+    let updateQuery = "UPDATE `users` SET `summary`='" + req.body.summary +"' WHERE `username`='" + req.session.username + "'";
+    mysql.fetchData(function (err, results) {
+        if (err) {
+            res.statusMessage = "Cannot set 'Summary' at the moment";
+            res.status(400).end();
+        }
+        else {
+            res.status(200).send({about:"Updated 'Summary' successfully"});
+        }
+    }, updateQuery);
+});
+
+router.post('/user/updateSkills', function(req,res) {
+    console.log(req.body);
+    // check user already exists
+    let updateQuery = "UPDATE `users` SET `skills`='" + req.body.skills +"' WHERE `username`='" + req.session.username + "'";
+    mysql.fetchData(function (err, results) {
+        if (err) {
+            res.statusMessage = "Cannot set 'Skills' at the moment";
+            res.status(400).end();
+        } else {
+            res.status(200).send({about:"Updated 'Skills' successfully"});
+        }
+    }, updateQuery);
+});
+
+router.post('/user/updatePhone', function(req,res) {
+    console.log(req.body);
+    // check user already exists
+    let updateQuery = "UPDATE `users` SET `phone`='" + req.body.phone +"' WHERE `username`='" + req.session.username + "'";
+    mysql.fetchData(function (err, results) {
+        if (err) {
+            res.statusMessage = "Cannot set 'Phone' at the moment";
+            res.status(400).end();
+        } else {
+            res.status(200).send({about:"Updated 'Phone' successfully"});
+        }
+    }, updateQuery);
+});
+
+router.post('/user/updateName', function(req,res) {
+    console.log(req.body);
+    // check user already exists
+    let updateQuery = "UPDATE `users` SET `name`='" + req.body.name +"' WHERE `username`='" + req.session.username + "'";
+    mysql.fetchData(function (err, results) {
+        if (err) {
+            res.statusMessage = "Cannot set 'Name' at the moment";
+            res.status(400).end();
+        } else {
+            res.status(200).send({about:"Updated 'Name' successfully"});
+        }
+    }, updateQuery);
+});
+
+router.post('/project/post-project', function(req,res) {
+    console.log(req.body);
+    // check user already exists
+    if(req.session.username) {
+        let insertQuery = "INSERT INTO `projects` (`emp_username`, `title`, `description`, `budget_range`, `skills_req`, `status`, `complete_by`, `filenames`) VALUES ('"
+            + req.session.username + "', '" + req.body.title + "', '" + req.body.description + "', '" + req.body.budget_range + "', '" + req.body.skills_req + "', '" + req.body.status + "', '" + req.body.complete_by + "', '" + req.body.filenames + ",')";
+        mysql.fetchData(function (err, results) {
+            if (err) {
+                res.statusMessage = "Error in Posting project.";
+                res.status(400).end();
+            }
+            else {
+                //res.statusMessage = "Project Created successfully!";
+                res.status(200).send({message:"Project Created successfully!"});
+            }
+        }, insertQuery);
+    }else {
+        res.statusMessage = "invalid session";
+        res.status(401).end();
+    }
+
+});
+
+
+
+var storageProjFiles = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, createDirectory(req.session.username));
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.originalname);
+    }
+});
+
+var rootDirectory = "public/project_files/";
+
+var uploadProjFiles = multer({
+    storage : storageProjFiles
+});
+
+function createDirectory(username) {
+    if (!fs.existsSync(rootDirectory)){
+        fs.mkdirSync(rootDirectory);
+    }
+    let directory = rootDirectory + username;
+    if (!fs.existsSync(directory)){
+        fs.mkdirSync(directory);
+    }
+    return directory;
+}
+
+router.post('/project/upload-files', uploadProjFiles.any(), function(req, res, next) {
+    console.log('###/saveProfile');
+    console.log(req.session.username);
+    console.log(req.body);
+    if(req.session.username) {
+        console.log(req.body, 'Body');
+        // console.log(req.files, 'files');
+        res.status(200).send({result:"File is uploaded"});
+    } else {
+        res.statusMessage = "invalid session";
+        res.status(401).end();
+    }
+});
+
+
+
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/ProfileImage/');
+    },
+    filename: function (req, file, cb) {
+        filename = req.session.username + path.extname(file.originalname);
+        cb(null, filename);
+    }
+});
+var upload = multer({
+    storage: storage
+});
+
+router.post('/saveProfile', upload.any(), function(req, res, next) {
+    console.log('###/saveProfile');
+    console.log(req.session.username);
+    console.log(req.body);
+    if(req.session.username) {
+        console.log(req.body, 'Body');
+        // console.log(req.files, 'files');
+        res.status(200).send({result:"File is uploaded"});
+    } else {
+        res.statusMessage = "invalid session";
+        res.status(401).end();
+    }
+});
 
 
 module.exports = router;
+
+

@@ -9,7 +9,9 @@ export const userActions = {
     login,
     logout,
     register,
-    fetchHomeProject
+    fetchHomeProject,
+    getByUserName,
+
 };
 
 
@@ -115,5 +117,22 @@ function fetchHomeProject(user) {
 
 }
 
+function getByUserName() {
+    return dispatch => {
+        console.log("###Action in");
+        // Calling backened API
+        RESTService.getByUserName()
+            .then(
+                user => {
+                    console.log("###Action. ok:");
+                    localStorage.removeItem('user');
+                    localStorage.setItem('user', JSON.stringify(user.user));
+                    dispatch(success(user.user));
+                }
+            );
+    };
+
+    function success(user) { return { type: "USERS_LOGIN_SUCCESS", user } }
+}
 
 

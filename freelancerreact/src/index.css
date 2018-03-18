@@ -208,7 +208,8 @@ a {
 }
 
 .FreeLancerIcon {
-    width: 160%;
+    width: 170%;
+    margin-left: -20px;
 }
 
 #shadowpanelUser {
@@ -220,7 +221,7 @@ a {
 }
 
 .shiftsmallleft {
-    margin-left: 15%;
+    margin-left: 5%;
 }
 
 .ProjectTitle {

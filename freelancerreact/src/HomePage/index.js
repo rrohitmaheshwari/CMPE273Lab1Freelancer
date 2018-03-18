@@ -70,9 +70,7 @@ class HomePage extends React.Component {
                                             <div className="col-sm-2 col-sm-offset-0">
                                                 <h5><b>PRICE</b></h5>
                                             </div>
-                                            <div className="col-sm-1 col-sm-offset-0">
 
-                                            </div>
 
                                         </div>
 
@@ -111,18 +109,15 @@ class HomePage extends React.Component {
                                                     <span className="shiftsmallleft"><a href={`/ViewProfilePage/${data.emp_username}`}>@{data.emp_username}</a></span>
 
                                                 </div>
-                                                <div className="col-sm-2 col-sm-offset-0">
+                                                <div className="col-sm-3 col-sm-offset-0">
 
                                                     <span className="shiftsmallleft">{data.budget_range}</span>
-                                                    <br/> <br/>
+                                                    <br/><br/>
                                                     <button className="btn btn-primary" id="BidProjectButton" value={data.project_id} onClick={this.handleSubmit.bind(this, "/BidProject")}>Bid Now
                                                     </button>
 
                                                 </div>
-                                                <div className="col-sm-1 col-sm-offset-0">
 
-
-                                                </div>
 
 
                                             </div>

@@ -69,7 +69,6 @@ html, body {
     border-radius: 3px;
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .08);
     display: flex;
-    flex-flow: row wrap;
     padding: 0;
     position: relative;
     width: 100%;
@@ -646,7 +645,6 @@ html, body {
 }
 .edit-widget-btn{
     position: relative;
-    margin-bottom: 20px;
     margin-right: 10px;
     display: inline-block;
 }
@@ -750,3 +748,10 @@ form{
     min-height: 25px;
 }
 /*Profile stats end*/
+
+#img-upload
+{
+    max-width: 40%;
+}
+
+

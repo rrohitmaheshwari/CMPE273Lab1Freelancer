@@ -28,6 +28,7 @@ export const RESTService = {
     sendFile,
     postProject,
     uploadFile,
+    getByUserName,
 
 };
 
@@ -346,7 +347,7 @@ function postProject(project) {
 }
 
 function uploadFile(file) {
-    let uploadFileUrl = api + '/project/post-project/upload';
+    let uploadFileUrl = api + '/project/upload-files';
     return axiosPost(uploadFileUrl, file);
 }
 
@@ -374,5 +375,16 @@ function handleResponse(response) {
 }
 
 
+function getByUserName() {
+    const requestOptions = {
+        method: 'POST',
+        credentials : 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    };
 
+    return fetch(`${api}/getUser`, requestOptions).then(handleResponse);
+}
 

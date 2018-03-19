@@ -52,8 +52,10 @@ class HireProject extends React.Component {
         RESTService.getBidDetails(Project_ID)
             .then(
                 response => {
-
+                    console.log("getBidDetails");
+console.log(response.result);
                     this.setState({"bid_table_data": response.result});
+
                     if (response.result.length > 0)
                         this.setState({"showtable": true});
                 },

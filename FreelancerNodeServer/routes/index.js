@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var mysql = require('./mysql');
-//var mysql = require('./mysql_without_connectionPool');
+//var mysql = require('./mysql');
+var mysql = require('./mysql_without_connectionPool');
 let fs = require('fs');
 let path = require('path')
 const bcrypt    = require('bcryptjs');
@@ -129,7 +129,7 @@ router.post('/home/getdetails', function (req, res) {
                 else {
                     console.log("No data fetched!");
                     res.statusMessage = "No data fetched";
-                    res.status(400).end();
+                    res.status(201).send({result: []});
                 }
             }
         }, sqlQuery);

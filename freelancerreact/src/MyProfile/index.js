@@ -40,6 +40,9 @@ class MyProfile extends React.Component {
     }
     componentWillMount(){
         console.log("###Fetch Profile Image in componentWillMount:");
+
+        const { dispatch } = this.props;
+        dispatch(userActions.getByUserName());
         const { user } = this.props;
         this.getProfileFromServer(user.username);
     }
